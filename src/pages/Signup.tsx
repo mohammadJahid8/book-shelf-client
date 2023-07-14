@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 
 export default function Signup() {
   return (
-    <div className="flex justify-center items-center h-screen">
+    <div className="flex justify-center items-center mt-16">
       <Card shadow={false} className="p-6 shadow-lg">
         <Typography variant="h4" color="blue-gray">
           Sign Up
