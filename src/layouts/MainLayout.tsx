@@ -7,7 +7,7 @@ export default function MainLayout() {
   return (
     <div>
       <NavbarHead />
-      <div className="">
+      <div className="mt-20">
         <Outlet />
       </div>
 
