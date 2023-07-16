@@ -1,5 +1,3 @@
-import React from "react";
-
 const EditBook = () => {
   return (
     <div className="px-8 mt-28">

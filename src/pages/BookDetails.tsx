@@ -1,7 +1,26 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import swal from "sweetalert";
 
 const BookDetails = () => {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+
+  const handleDeleteBook = () => {
+    swal({
+      title: "Are you sure?",
+      text: "Once deleted, you will not be able to recover this book!",
+      icon: "warning",
+      buttons: ["Cancel", "Delete"],
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        swal("Poof! Your book has been deleted!", {
+          icon: "success",
+        });
+        navigate("/allbooks");
+      }
+    });
+  };
 
   return (
     <div className="px-8 mt-28">
@@ -15,7 +34,10 @@ const BookDetails = () => {
             EDIT BOOK
           </button>
         </Link>
-        <button className="text-white  bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-sm text-xs px-3 py-1.5 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
+        <button
+          onClick={handleDeleteBook}
+          className="text-white  bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-sm text-xs px-3 py-1.5 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+        >
           DELETE BOOK
         </button>
       </div>
