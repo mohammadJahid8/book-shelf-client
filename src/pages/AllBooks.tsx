@@ -1,9 +1,14 @@
 "use client";
 
 import { books } from "@/utils/data";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 export default function AllBooks() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <div className="container mx-auto ">
       <h4 className="text-center font-extrabold tracking-tight text-3xl mb-4">

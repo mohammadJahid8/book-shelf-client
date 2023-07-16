@@ -1,4 +1,10 @@
+import { useEffect } from "react";
+
 const EditBook = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <div className="px-8 mt-28">
       <h4 className="text-start font-extrabold tracking-tight text-3xl mb-4 ">

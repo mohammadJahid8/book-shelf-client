@@ -1,4 +1,5 @@
 import { books } from "@/utils/data";
+import { Link } from "react-router-dom";
 
 const HomeBooks = () => {
   return (
@@ -47,18 +48,12 @@ const HomeBooks = () => {
                 <td className="px-6 py-4">{book.genre}</td>
                 <td className="px-6 py-4">{book.publicationDate}</td>
                 <td className="px-6 py-4 flex gap-3">
-                  <a
+                  <Link
                     className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
-                    href="/tables"
+                    to={`/book-details/${book._id}`}
                   >
-                    <p>Edit</p>
-                  </a>
-                  <a
-                    className="font-medium text-red-600 hover:underline dark:text-cyan-500"
-                    href="/tables"
-                  >
-                    <p>Delete</p>
-                  </a>
+                    <p>View</p>
+                  </Link>
                 </td>
               </tr>
             ))}
