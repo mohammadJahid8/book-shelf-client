@@ -1,20 +1,22 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const BookDetails = () => {
   const { id } = useParams<{ id: string }>();
 
   return (
-    <div className="px-8">
-      <h4 className="text-start font-extrabold tracking-tight text-3xl mb-4">
+    <div className="px-8 mt-28">
+      <h4 className="text-start font-extrabold tracking-tight text-3xl mb-4 ">
         Book Details
       </h4>
 
-      <div className="flex">
-        <button className="text-white  bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-md text-xs px-3 py-1.5 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-blue-800">
-          ADD NEW BOOK
-        </button>
-        <button className="text-white  bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-md text-xs px-3 py-1.5 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
-          ADD NEW BOOK
+      <div className="flex gap-1 mb-4">
+        <Link to={`/edit-book/${id}`}>
+          <button className="text-white  bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-sm text-xs px-3 py-1.5 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+            EDIT BOOK
+          </button>
+        </Link>
+        <button className="text-white  bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-sm text-xs px-3 py-1.5 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
+          DELETE BOOK
         </button>
       </div>
       <dl className=" text-gray-900 divide-y divide-gray-200 dark:text-white dark:divide-gray-700">
