@@ -8,6 +8,7 @@ import {
 } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 import bookshelf from "../assets/bookshelf.png";
+import "./Navbar.css";
 
 export default function NavbarHead() {
   const [openNav, setOpenNav] = React.useState(false);
@@ -36,7 +37,7 @@ export default function NavbarHead() {
 
   return (
     <>
-      <Navbar className="fixed top-0 z-10 h-max max-w-full rounded-none py-2 px-4 lg:px-8 lg:py-4">
+      <Navbar className="fixed top-0 z-10 h-max max-w-full rounded-none py-2 px-4 lg:px-8 lg:py-4 navbar-bg">
         <div className="flex items-center justify-between text-blue-gray-900">
           <Link to="/">
             <Typography className="mr-4 cursor-pointer py-1.5 font-medium flex">

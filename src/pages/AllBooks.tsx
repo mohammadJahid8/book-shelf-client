@@ -1,13 +1,38 @@
 "use client";
 
-import { books } from "@/utils/data";
-import { useEffect } from "react";
+import { useGetBooksQuery } from "@/redux/features/books/bookApi";
+
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 export default function AllBooks() {
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const { data, error, isLoading } = useGetBooksQuery(currentPage);
+
+  console.log(data);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  const handlePrevClick = () => {
+    window.scrollTo(0, 0);
+    if (currentPage > 1) {
+      setCurrentPage((prevPage) => prevPage - 1);
+    }
+  };
+
+  const handleNextClick = () => {
+    window.scrollTo(0, 0);
+    if (currentPage < Math.ceil(data.meta.total / data.meta.limit)) {
+      setCurrentPage((prevPage) => prevPage + 1);
+    }
+  };
 
   return (
     <div className="container mx-auto ">
@@ -72,7 +97,7 @@ export default function AllBooks() {
             </tr>
           </thead>
           <tbody>
-            {books?.map((book, index) => (
+            {data?.data?.map((book: any, index: number) => (
               <tr
                 className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
                 key={book._id}
@@ -105,6 +130,23 @@ export default function AllBooks() {
             ))}
           </tbody>
         </table>
+      </div>
+
+      <div className="flex gap-2 justify-center mt-6">
+        <button
+          disabled={currentPage === 1}
+          onClick={handlePrevClick}
+          className="font-medium text-blue-600 hover:underline dark:text-cyan-500"
+        >
+          Previous
+        </button>
+        <button
+          className="font-medium text-blue-600 hover:underline dark:text-cyan-500"
+          disabled={currentPage >= Math.ceil(data.meta.total / data.meta.limit)}
+          onClick={handleNextClick}
+        >
+          Next
+        </button>
       </div>
     </div>
   );
