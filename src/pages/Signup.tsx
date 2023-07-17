@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
+import { useUserSignupMutation } from "@/redux/features/user/userApi";
 import {
   Card,
   Input,
@@ -5,9 +8,28 @@ import {
   Button,
   Typography,
 } from "@material-tailwind/react";
-import { Link } from "react-router-dom";
+
+import { FormEvent } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Signup() {
+  const [userSignup, { isLoading, isError, error }] = useUserSignupMutation();
+  const navigate = useNavigate();
+
+  const data = error?.data;
+
+  const handleSignup = async (event: FormEvent<HTMLFormElement>) => {
+    window.scrollTo(0, 0);
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const data = Object.fromEntries(formData);
+    const response = await userSignup(data);
+
+    if (response?.data?.statusCode === 200) {
+      navigate("/signin");
+    }
+  };
+
   return (
     <div className="flex justify-center items-center mt-16">
       <Card shadow={false} className="p-6 shadow-lg">
@@ -17,32 +39,35 @@ export default function Signup() {
         <Typography color="gray" className="mt-1 font-normal">
           Enter your details to register.
         </Typography>
-        <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96">
+        <form
+          className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96"
+          onSubmit={handleSignup}
+        >
           <div className="mb-4 flex flex-col gap-6">
-            <Input size="lg" label="Name" />
-            <Input size="lg" label="Email" />
-            <Input type="password" size="lg" label="Password" />
+            <Input size="lg" label="Name" required name="name" />
+            <Input size="lg" label="Email" required name="email" />
+
+            <Input
+              type="password"
+              size="lg"
+              label="Password"
+              required
+              name="password"
+            />
           </div>
-          <Checkbox
-            label={
-              <Typography
-                variant="small"
-                color="gray"
-                className="flex items-center font-normal"
-              >
-                I agree the
-                <a
-                  href="#"
-                  className="font-medium transition-colors hover:text-blue-500"
-                >
-                  &nbsp;Terms and Conditions
-                </a>
-              </Typography>
-            }
-            containerProps={{ className: "-ml-2.5" }}
-          />
-          <Button className="mt-6" fullWidth>
-            Register
+          {isError && (
+            <p color="red" className="font-sans text-xs text-red-800">
+              {data?.message}
+            </p>
+          )}
+
+          <Button
+            className="mt-6"
+            fullWidth
+            type="submit"
+            disabled={isLoading ? true : false}
+          >
+            {isLoading ? "Registering..." : "Register"}
           </Button>
           <Typography color="gray" className="mt-4 text-center font-normal">
             Already have an account?{" "}
