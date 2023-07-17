@@ -1,3 +1,4 @@
+import { useSingleBookQuery } from "@/redux/features/books/bookApi";
 import { useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import swal from "sweetalert";
@@ -6,9 +7,13 @@ const BookDetails = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
+  const { data, isLoading } = useSingleBookQuery(id);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  if (isLoading) return <div>Loading...</div>;
 
   const handleDeleteBook = () => {
     swal({
@@ -52,28 +57,26 @@ const BookDetails = () => {
             <dt className="mb-1 text-gray-500 md:text-lg dark:text-gray-400">
               Title
             </dt>
-            <dd className="text-lg font-semibold">yourname@flowbite.com</dd>
+            <dd className="text-lg font-semibold">{data?.data?.title}</dd>
           </div>
           <div className="flex flex-col ">
             <dt className="mb-1 text-gray-500 md:text-lg dark:text-gray-400">
               Author
             </dt>
-            <dd className="text-lg font-semibold">Jahid</dd>
+            <dd className="text-lg font-semibold">{data?.data?.author}</dd>
           </div>
           <div className="flex flex-col ">
             <dt className="mb-1 text-gray-500 md:text-lg dark:text-gray-400">
               Genre
             </dt>
-            <dd className="text-lg font-semibold">
-              +00 123 456 789 / +12 345 678
-            </dd>
+            <dd className="text-lg font-semibold">{data?.data?.genre}</dd>
           </div>
           <div className="flex flex-col ">
             <dt className="mb-1 text-gray-500 md:text-lg dark:text-gray-400">
               Publication Date
             </dt>
             <dd className="text-lg font-semibold">
-              +00 123 456 789 / +12 345 678
+              {data?.data?.publicationDate}
             </dd>
           </div>
         </div>
@@ -83,40 +86,25 @@ const BookDetails = () => {
             Reviews
           </dt>
           <dd className="text-lg font-semibold">
-            <div className="flex items-center space-x-4 mb-2">
-              <div className="flex-shrink-0">
-                <img
-                  className="w-8 h-8 rounded-full"
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQD116U9ZCk8bEaanCeB5rSCC2uqY5Ka_2_EA&usqp=CAU"
-                  alt="Neil image"
-                />
+            {data?.data?.reviews?.map((review: any) => (
+              <div className="flex items-center space-x-4 mb-2">
+                <div className="flex-shrink-0">
+                  <img
+                    className="w-8 h-8 rounded-full"
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQD116U9ZCk8bEaanCeB5rSCC2uqY5Ka_2_EA&usqp=CAU"
+                    alt="Neil image"
+                  />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
+                    User
+                  </p>
+                  <p className="text-sm text-gray-500 truncate dark:text-gray-400">
+                    {review}
+                  </p>
+                </div>
               </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
-                  Neil Sims
-                </p>
-                <p className="text-sm text-gray-500 truncate dark:text-gray-400">
-                  Awesome book
-                </p>
-              </div>
-            </div>
-            <div className="flex items-center space-x-4">
-              <div className="flex-shrink-0">
-                <img
-                  className="w-8 h-8 rounded-full"
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQD116U9ZCk8bEaanCeB5rSCC2uqY5Ka_2_EA&usqp=CAU"
-                  alt="Neil image"
-                />
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
-                  Neil Sims
-                </p>
-                <p className="text-sm text-gray-500 truncate dark:text-gray-400">
-                  Awesome book
-                </p>
-              </div>
-            </div>
+            ))}
           </dd>
         </div>
       </dl>

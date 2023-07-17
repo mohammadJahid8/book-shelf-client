@@ -10,8 +10,6 @@ export default function AllBooks() {
 
   const { data, error, isLoading } = useGetBooksQuery(currentPage);
 
-  console.log(data);
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);

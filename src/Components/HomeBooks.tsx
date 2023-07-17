@@ -1,7 +1,12 @@
+import { useGetBooksQuery } from "@/redux/features/books/bookApi";
 import { books } from "@/utils/data";
 import { Link } from "react-router-dom";
 
 const HomeBooks = () => {
+  const { data, isLoading } = useGetBooksQuery(1);
+
+  if (isLoading) return <div>Loading...</div>;
+
   return (
     <>
       <h4 className="text-center font-extrabold tracking-tight text-3xl mb-4">
@@ -32,7 +37,7 @@ const HomeBooks = () => {
             </tr>
           </thead>
           <tbody>
-            {books?.slice(0, 10).map((book, index) => (
+            {data?.data?.map((book: any, index: number) => (
               <tr
                 className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
                 key={book._id}
