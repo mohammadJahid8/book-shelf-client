@@ -1,4 +1,5 @@
 import { useSingleBookQuery } from "@/redux/features/books/bookApi";
+import { useGetMyProfileQuery } from "@/redux/features/user/userApi";
 import { useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import swal from "sweetalert";
@@ -8,6 +9,14 @@ const BookDetails = () => {
   const navigate = useNavigate();
 
   const { data, isLoading } = useSingleBookQuery(id);
+  const { data: userData } = useGetMyProfileQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+    pollingInterval: 30000,
+    refetchOnFocus: true,
+    refetchOnReconnect: true,
+  });
+
+  const userId = userData?.data?._id;
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -39,17 +48,21 @@ const BookDetails = () => {
       </h4>
 
       <div className="flex gap-1 mb-4">
-        <Link to={`/edit-book/${id}`}>
-          <button className="text-white  bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-sm text-xs px-3 py-1.5 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-            EDIT BOOK
-          </button>
-        </Link>
-        <button
-          onClick={handleDeleteBook}
-          className="text-white  bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-sm text-xs px-3 py-1.5 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
-        >
-          DELETE BOOK
-        </button>
+        {userId === data?.data?.authorId && (
+          <>
+            <Link to={`/edit-book/${id}`}>
+              <button className="text-white  bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-sm text-xs px-3 py-1.5 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                EDIT BOOK
+              </button>
+            </Link>
+            <button
+              onClick={handleDeleteBook}
+              className="text-white  bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-sm text-xs px-3 py-1.5 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+            >
+              DELETE BOOK
+            </button>
+          </>
+        )}
       </div>
       <dl className=" text-gray-900 divide-y divide-gray-200 dark:text-white dark:divide-gray-700">
         <div className="flex flex-col md:flex-row md:justify-between">

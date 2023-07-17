@@ -2,6 +2,13 @@ import { api } from "@/redux/api/apiSlice";
 
 const userApi = api.injectEndpoints({
   endpoints: (builder) => ({
+    getMyProfile: builder.query({
+      // get my profile by token
+
+      query: () => "users/my-profile",
+      providesTags: ["user"],
+    }),
+
     userSignup: builder.mutation({
       query: (data) => ({
         url: "/auth/signup",
@@ -21,4 +28,8 @@ const userApi = api.injectEndpoints({
   }),
 });
 
-export const { useUserSignupMutation, useUserSigninMutation } = userApi;
+export const {
+  useUserSignupMutation,
+  useUserSigninMutation,
+  useGetMyProfileQuery,
+} = userApi;
