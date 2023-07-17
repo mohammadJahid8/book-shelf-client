@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 import { useUserSignupMutation } from "@/redux/features/user/userApi";
@@ -16,6 +17,7 @@ export default function Signup() {
   const [userSignup, { isLoading, isError, error }] = useUserSignupMutation();
   const navigate = useNavigate();
 
+  //@ts-ignore
   const data = error?.data;
 
   const handleSignup = async (event: FormEvent<HTMLFormElement>) => {
@@ -25,7 +27,8 @@ export default function Signup() {
     const data = Object.fromEntries(formData);
     const response = await userSignup(data);
 
-    if (response?.data?.statusCode === 200) {
+    //@ts-ignore
+    if (response?.success === true) {
       navigate("/signin");
     }
   };
