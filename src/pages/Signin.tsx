@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
+
 import { useUserSigninMutation } from "@/redux/features/user/userApi";
+
 import { Card, Input, Button, Typography } from "@material-tailwind/react";
 import { FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -9,7 +11,7 @@ export default function Signin() {
   const navigate = useNavigate();
 
   //@ts-ignore
-  const data = error?.data;
+  const errorData = error?.data;
 
   const handleSignin = async (event: FormEvent<HTMLFormElement>) => {
     window.scrollTo(0, 0);
@@ -21,7 +23,20 @@ export default function Signin() {
     //@ts-ignore
     if (response?.data?.success === true) {
       //@ts-ignore
-      localStorage.setItem("token", response?.data?.data?.accessToken);
+      const token = response?.data?.data?.accessToken;
+
+      // insert token in data object and set in localsotrage
+
+      data.token = token;
+
+      const localData = {
+        email: data.email,
+        token: data.token,
+      };
+
+      const dataString = JSON.stringify(localData);
+      localStorage.setItem("user", dataString);
+
       navigate("/");
     }
   };
@@ -52,7 +67,7 @@ export default function Signin() {
           </div>
           {isError && (
             <p color="red" className="font-sans text-xs text-red-800">
-              {data?.message}
+              {errorData?.message}
             </p>
           )}
 

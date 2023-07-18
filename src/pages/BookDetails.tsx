@@ -1,5 +1,6 @@
 import { useSingleBookQuery } from "@/redux/features/books/bookApi";
-import { useGetMyProfileQuery } from "@/redux/features/user/userApi";
+import { useAppSelector } from "@/redux/hook";
+
 import { useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import swal from "sweetalert";
@@ -9,14 +10,12 @@ const BookDetails = () => {
   const navigate = useNavigate();
 
   const { data, isLoading } = useSingleBookQuery(id);
-  const { data: userData } = useGetMyProfileQuery(undefined, {
-    refetchOnMountOrArgChange: true,
-    pollingInterval: 30000,
-    refetchOnFocus: true,
-    refetchOnReconnect: true,
-  });
 
-  const userId = userData?.data?._id;
+  console.log(data);
+
+  const { user } = useAppSelector((state) => state.user);
+
+  const userEmail = user?.email;
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -48,7 +47,7 @@ const BookDetails = () => {
       </h4>
 
       <div className="flex gap-1 mb-4">
-        {userId === data?.data?.authorId && (
+        {userEmail === data?.data?.authorEmail && (
           <>
             <Link to={`/edit-book/${id}`}>
               <button className="text-white  bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-sm text-xs px-3 py-1.5 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">

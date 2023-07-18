@@ -1,0 +1,122 @@
+[
+  {
+    "title": "Game of Thrones",
+    "author": "Jahid",
+    "genre": "Drama",
+    "publicationDate": "2022",
+    "reviews": ["nice book", "awesome"],
+    "authorEmail": "mohammadjahid0007@gmail.com"
+  },
+  {
+    "title": "A Dance with Dragons",
+    "author": "Jahid",
+    "genre": "Fantasy",
+    "publicationDate": "2022",
+    "reviews": ["enchanting", "loved it"],
+    "authorEmail": "mohammadjahid0007@gmail.com"
+  },
+  {
+    "title": "A Clash of Kings",
+    "author": "Jahid",
+    "genre": "Fantasy",
+    "publicationDate": "2022",
+    "reviews": ["exciting", "epic"],
+    "authorEmail": "mohammadjahid0007@gmail.com"
+  },
+  {
+    "title": "A Feast for Crows",
+    "author": "Jahid",
+    "genre": "Fantasy",
+    "publicationDate": "2022",
+    "reviews": ["intriguing", "compelling"],
+    "authorEmail": "mohammadjahid0007@gmail.com"
+  },
+  {
+    "title": "A Storm of Swords",
+    "author": "Jahid",
+    "genre": "Fantasy",
+    "publicationDate": "2022",
+    "reviews": ["captivating", "unputdownable"],
+    "authorEmail": "mohammadjahid0007@gmail.com"
+  },
+  {
+    "title": "The Hobbit",
+    "author": "Jahid",
+    "genre": "Fantasy",
+    "publicationDate": "2022",
+    "reviews": ["classic", "timeless"],
+    "authorEmail": "mohammadjahid0007@gmail.com"
+  },
+  {
+    "title": "The Fellowship of the Ring",
+    "author": "Jahid",
+    "genre": "Fantasy",
+    "publicationDate": "2022",
+    "reviews": ["epic", "unforgettable"],
+    "authorEmail": "mohammadjahid0007@gmail.com"
+  },
+  {
+    "title": "The Two Towers",
+    "author": "Jahid",
+    "genre": "Fantasy",
+    "publicationDate": "2022",
+    "reviews": ["gripping", "brilliant"],
+    "authorEmail": "mohammadjahid0007@gmail.com"
+  },
+  {
+    "title": "The Return of the King",
+    "author": "Jahid",
+    "genre": "Fantasy",
+    "publicationDate": "2022",
+    "reviews": ["masterpiece", "emotional"],
+    "authorEmail": "mohammadjahid0007@gmail.com"
+  },
+  {
+    "title": "To Kill a Mockingbird",
+    "author": "Jahid",
+    "genre": "Classic",
+    "publicationDate": "2022",
+    "reviews": ["insightful", "important"],
+    "authorEmail": "mohammadjahid0007@gmail.com"
+  },
+  {
+    "title": "1984",
+    "author": "Jahid",
+    "genre": "Science Fiction",
+    "publicationDate": "2022",
+    "reviews": ["thought-provoking", "dystopian"],
+    "authorEmail": "mohammadjahid0007@gmail.com"
+  },
+  {
+    "title": "Brave New World",
+    "author": "Jahid",
+    "genre": "Science Fiction",
+    "publicationDate": "2022",
+    "reviews": ["eye-opening", "disturbing"],
+    "authorEmail": "mohammadjahid0007@gmail.com"
+  },
+  {
+    "title": "The Great Gatsby",
+    "author": "Jahid",
+    "genre": "Classic",
+    "publicationDate": "2022",
+    "reviews": ["captivating", "beautifully written"],
+    "authorEmail": "mohammadjahid0007@gmail.com"
+  },
+  {
+    "title": "Pride and Prejudice",
+    "author": "Jahid",
+    "genre": "Classic",
+    "publicationDate": "2022",
+    "reviews": ["romantic", "timeless"],
+    "authorEmail": "mohammadjahid0007@gmail.com"
+  },
+  {
+    "title": "The Catcher in the Rye",
+    "author": "Jahid",
+    "genre": "Classic",
+    "publicationDate": "2022",
+    "reviews": ["iconic", "relatable"],
+    "authorEmail": "mohammadjahid0007@gmail.com"
+  }
+]
