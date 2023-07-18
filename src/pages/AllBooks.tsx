@@ -27,7 +27,7 @@ export default function AllBooks() {
 
   const handleNextClick = () => {
     window.scrollTo(0, 0);
-    if (currentPage < Math.ceil(data.meta.total / data.meta.limit)) {
+    if (currentPage < Math.ceil(data?.meta.total / data?.meta.limit)) {
       setCurrentPage((prevPage) => prevPage + 1);
     }
   };
@@ -140,7 +140,9 @@ export default function AllBooks() {
         </button>
         <button
           className="font-medium text-blue-600 hover:underline dark:text-cyan-500"
-          disabled={currentPage >= Math.ceil(data.meta.total / data.meta.limit)}
+          disabled={
+            currentPage >= Math.ceil(data?.meta.total / data?.meta.limit)
+          }
           onClick={handleNextClick}
         >
           Next

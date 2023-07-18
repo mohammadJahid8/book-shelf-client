@@ -1,4 +1,8 @@
-import { useSingleBookQuery } from "@/redux/features/books/bookApi";
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+import {
+  useDeleteBookMutation,
+  useSingleBookQuery,
+} from "@/redux/features/books/bookApi";
 import { useAppSelector } from "@/redux/hook";
 
 import { useEffect } from "react";
@@ -9,7 +13,11 @@ const BookDetails = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
-  const { data, isLoading } = useSingleBookQuery(id);
+  const { data, isLoading, refetch } = useSingleBookQuery(id, {
+    refetchOnMountOrArgChange: true,
+    pollingInterval: 20000,
+  });
+  const [deleteBook] = useDeleteBookMutation();
 
   console.log(data);
 
@@ -30,12 +38,18 @@ const BookDetails = () => {
       icon: "warning",
       buttons: ["Cancel", "Delete"],
       dangerMode: true,
-    }).then((willDelete) => {
+    }).then(async (willDelete) => {
       if (willDelete) {
-        swal("Poof! Your book has been deleted!", {
-          icon: "success",
-        });
-        navigate("/allbooks");
+        const response = await deleteBook(id);
+
+        // @ts-ignore
+        if (response?.data?.statusCode === 200) {
+          refetch();
+          swal("Poof! Your book has been deleted!", {
+            icon: "success",
+          });
+          navigate("/allbooks");
+        }
       }
     });
   };
