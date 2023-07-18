@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 export default function AllBooks() {
   const [currentPage, setCurrentPage] = useState(1);
 
-  const { data, error, isLoading } = useGetBooksQuery(currentPage);
+  const { data, isLoading } = useGetBooksQuery(currentPage);
 
   useEffect(() => {
     window.scrollTo(0, 0);

@@ -2,13 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 import { useUserSignupMutation } from "@/redux/features/user/userApi";
-import {
-  Card,
-  Input,
-  Checkbox,
-  Button,
-  Typography,
-} from "@material-tailwind/react";
+import { Card, Input, Button, Typography } from "@material-tailwind/react";
 
 import { FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";

@@ -1,5 +1,5 @@
 import { useGetBooksQuery } from "@/redux/features/books/bookApi";
-import { books } from "@/utils/data";
+
 import { Link } from "react-router-dom";
 
 const HomeBooks = () => {
