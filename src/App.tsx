@@ -14,7 +14,6 @@ function App() {
 
   useEffect(() => {
     const localToken = JSON.parse(localStorage.getItem("user") || "{}");
-    console.log(localToken);
 
     const user = {
       email: localToken?.email,

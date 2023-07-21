@@ -1,7 +1,13 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useGetBooksQuery } from "@/redux/features/books/bookApi";
-import { Option, Select } from "@material-tailwind/react";
+import {
+  setGenre,
+  setPublicationDate,
+  setSearchQuery,
+} from "@/redux/features/books/bookSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
 
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -10,6 +16,14 @@ export default function AllBooks() {
   const [currentPage, setCurrentPage] = useState(1);
 
   const { data, isLoading } = useGetBooksQuery(currentPage);
+
+  const { genre, publicationDate, searchQuery } = useAppSelector(
+    (state) => state.book
+  );
+
+  console.log(genre, publicationDate, searchQuery);
+
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -33,22 +47,49 @@ export default function AllBooks() {
     }
   };
 
-  const onSelectChange = (e: any) => {
-    // filter data by genre and publication year
-    console.log(e.target.value);
-    const filterBy = e.target.value;
-    const filteredData = data?.data.filter((book: any) => {
-      if (filterBy === "all") {
-        return book;
-      } else if (filterBy === "title") {
-        return book.title;
-      } else if (filterBy === "author") {
-        return book.author;
-      }
-    });
-
-    console.log(filteredData);
+  const handleSearch = (value: string) => {
+    dispatch(setSearchQuery(value));
   };
+
+  const handleGenreFilter = (value: string) => {
+    dispatch(setGenre(value));
+  };
+  const handlePublicationDateFilter = (value: string) => {
+    dispatch(setPublicationDate(value));
+  };
+
+  const allGenres = data?.data?.map((book: any) => book.genre);
+
+  // remove duplicate genres
+  const uniqueGenres = [...new Set(allGenres)];
+
+  const publicationDateData = data?.data?.map(
+    (book: any) => book.publicationDate
+  );
+
+  // remove duplicate publicationDate
+  const uniquePublicationDate = [...new Set(publicationDateData)];
+
+  let filteredBooks = data?.data?.filter((book: any) => {
+    if (genre === "all" && publicationDate === "all") {
+      return book;
+    } else if (genre === "all" && publicationDate !== "all") {
+      return book.publicationDate === publicationDate;
+    } else if (genre !== "all" && publicationDate === "all") {
+      return book.genre === genre;
+    } else {
+      return book.genre === genre && book.publicationDate === publicationDate;
+    }
+  });
+
+  if (searchQuery) {
+    filteredBooks = filteredBooks?.filter(
+      (book: any) =>
+        book.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        book.author.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        book.genre.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  }
 
   return (
     <div className="container mx-auto ">
@@ -59,19 +100,23 @@ export default function AllBooks() {
       <div className="flex gap-2 mb-3">
         <select
           className="bg-gray-300 py-2 px-3 rounded-sm"
-          onChange={onSelectChange}
+          onChange={(e) => handleGenreFilter(e.target.value)}
         >
           <option value="all">Filter by Genre</option>
-          <option value="title">Genre</option>
-          <option value="author">Publication year</option>
+          <option value="all">All</option>
+          {uniqueGenres?.map((genre: any) => (
+            <option value={genre}>{genre}</option>
+          ))}
         </select>
         <select
           className="bg-gray-300 py-2 px-3 rounded-sm"
-          onChange={onSelectChange}
+          onChange={(e) => handlePublicationDateFilter(e.target.value)}
         >
           <option value="all">Filter by year</option>
-          <option value="title">Genre</option>
-          <option value="author">Publication year</option>
+          <option value="all">All</option>
+          {uniquePublicationDate?.map((publicationDate: any) => (
+            <option value={publicationDate}>{publicationDate}</option>
+          ))}
         </select>
         <div className="relative">
           <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -92,6 +137,7 @@ export default function AllBooks() {
             </svg>
           </div>
           <input
+            onChange={(e) => handleSearch(e.target.value)}
             type="search"
             id="default-search"
             className="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -131,7 +177,7 @@ export default function AllBooks() {
             </tr>
           </thead>
           <tbody>
-            {data?.data?.map((book: any, index: number) => (
+            {filteredBooks?.map((book: any, index: number) => (
               <tr
                 className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
                 key={book._id}
