@@ -1,6 +1,7 @@
 "use client";
 
 import { useGetBooksQuery } from "@/redux/features/books/bookApi";
+import { Option, Select } from "@material-tailwind/react";
 
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -32,6 +33,23 @@ export default function AllBooks() {
     }
   };
 
+  const onSelectChange = (e: any) => {
+    // filter data by genre and publication year
+    console.log(e.target.value);
+    const filterBy = e.target.value;
+    const filteredData = data?.data.filter((book: any) => {
+      if (filterBy === "all") {
+        return book;
+      } else if (filterBy === "title") {
+        return book.title;
+      } else if (filterBy === "author") {
+        return book.author;
+      }
+    });
+
+    console.log(filteredData);
+  };
+
   return (
     <div className="container mx-auto ">
       <h4 className="text-center font-extrabold tracking-tight text-3xl mb-4">
@@ -39,6 +57,22 @@ export default function AllBooks() {
       </h4>
 
       <div className="flex gap-2 mb-3">
+        <select
+          className="bg-gray-300 py-2 px-3 rounded-sm"
+          onChange={onSelectChange}
+        >
+          <option value="all">Filter by Genre</option>
+          <option value="title">Genre</option>
+          <option value="author">Publication year</option>
+        </select>
+        <select
+          className="bg-gray-300 py-2 px-3 rounded-sm"
+          onChange={onSelectChange}
+        >
+          <option value="all">Filter by year</option>
+          <option value="title">Genre</option>
+          <option value="author">Publication year</option>
+        </select>
         <div className="relative">
           <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
             <svg

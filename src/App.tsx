@@ -1,32 +1,28 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import MainLayout from "./layouts/MainLayout";
 
-import { useAppDispatch, useAppSelector } from "./redux/hook";
-import { User, setUser } from "./redux/features/user/userSlice";
+import { useAppDispatch } from "./redux/hook";
+import { setUser } from "./redux/features/user/userSlice";
+import { useGetMyProfileQuery } from "./redux/features/user/userApi";
 
 function App() {
-  const [userData, setUserData] = useState({} as User);
-  const { user } = useAppSelector((state) => state.user);
-
-  console.log({ user });
+  const { isLoading } = useGetMyProfileQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const userData = JSON.parse(localStorage.getItem("user") || "{}");
-    setUserData(userData);
-  }, []);
+    const localToken = JSON.parse(localStorage.getItem("user") || "{}");
+    console.log(localToken);
 
-  useEffect(() => {
-    if (userData) {
-      const user = {
-        email: userData.email,
-        token: userData.token,
-      };
+    const user = {
+      email: localToken?.email,
+      token: localToken.token,
+    };
 
-      dispatch(setUser(user));
-    }
-  }, [userData, dispatch]);
+    dispatch(setUser(user));
+  }, [dispatch, isLoading]);
 
   return (
     <>

@@ -1,6 +1,11 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 
-import { useUserSigninMutation } from "@/redux/features/user/userApi";
+import { setToken } from "@/redux/features/user/authSlice";
+import {
+  useGetMyProfileQuery,
+  useUserSigninMutation,
+} from "@/redux/features/user/userApi";
+import { useAppDispatch } from "@/redux/hook";
 
 import { Card, Input, Button, Typography } from "@material-tailwind/react";
 import { FormEvent } from "react";
@@ -8,6 +13,8 @@ import { Link, useNavigate } from "react-router-dom";
 
 export default function Signin() {
   const [userSignin, { isLoading, isError, error }] = useUserSigninMutation();
+  const dispatch = useAppDispatch();
+
   const navigate = useNavigate();
 
   //@ts-ignore
@@ -28,6 +35,8 @@ export default function Signin() {
       // insert token in data object and set in localsotrage
 
       data.token = token;
+
+      dispatch(setToken(token));
 
       const localData = {
         email: data.email,

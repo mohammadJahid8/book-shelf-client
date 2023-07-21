@@ -7,16 +7,9 @@ export const api = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:5000/api/v1/",
     prepareHeaders: (headers, { getState }) => {
-      console.log(
-        "inside prepare headers",
-        getState() as RootState,
-        localStorage.getItem("token")
-      );
-      const token =
-        (getState() as RootState).auth.token || localStorage.getItem("token");
-      console.log("token from api slice", token);
+      const token = (getState() as RootState).auth.token;
+
       if (token) {
-        console.log("inside");
         headers.set("Authorization", `${token}`);
       }
       return headers;

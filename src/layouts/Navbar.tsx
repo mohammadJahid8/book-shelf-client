@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Navbar,
   Typography,
@@ -9,16 +9,17 @@ import {
 import { Link } from "react-router-dom";
 import bookshelf from "../assets/bookshelf.png";
 import "./Navbar.css";
+
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
-import { removeUser } from "@/redux/features/user/userSlice";
+
+import { setUser } from "@/redux/features/user/userSlice";
 
 export default function NavbarHead() {
   const [openNav, setOpenNav] = React.useState(false);
 
   const { user } = useAppSelector((state) => state.user);
-  const dispatch = useAppDispatch();
 
-  console.log(user);
+  const dispatch = useAppDispatch();
 
   const userEmail = user?.email;
 
@@ -31,7 +32,13 @@ export default function NavbarHead() {
 
   const handleLogout = () => {
     localStorage.removeItem("user");
-    dispatch(removeUser());
+
+    dispatch(
+      setUser({
+        email: "",
+        token: "",
+      })
+    );
   };
 
   const navList = (
