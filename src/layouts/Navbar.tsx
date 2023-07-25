@@ -53,6 +53,16 @@ export default function NavbarHead() {
           ALL BOOKS
         </Typography>
       </Link>
+      <Link to="/wishlist">
+        <Typography
+          as="li"
+          variant="small"
+          color="blue-gray"
+          className="p-1 font-normal"
+        >
+          WISHLIST
+        </Typography>
+      </Link>
     </ul>
   );
 
@@ -131,11 +141,23 @@ export default function NavbarHead() {
         </div>
         <Collapse open={openNav}>
           {navList}
-          <Link to="/signin">
-            <Button variant="gradient" size="sm" fullWidth className="mb-2">
-              <span>SIGN IN</span>
+          {userEmail ? (
+            <Button
+              variant="gradient"
+              size="sm"
+              fullWidth
+              className="mb-2"
+              onClick={handleLogout}
+            >
+              <span>SIGN OUT</span>
             </Button>
-          </Link>
+          ) : (
+            <Link to="/signin">
+              <Button variant="gradient" size="sm" fullWidth className="mb-2">
+                <span>SIGN IN</span>
+              </Button>
+            </Link>
+          )}
         </Collapse>
       </Navbar>
     </>

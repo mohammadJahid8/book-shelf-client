@@ -8,10 +8,11 @@ export const api = createApi({
     baseUrl: "http://localhost:5000/api/v1/",
     prepareHeaders: (headers, { getState }) => {
       const token = (getState() as RootState).auth.token;
+      console.log(token);
+      const localToken = JSON.parse(localStorage.getItem("user") || "{}");
 
-      if (token) {
-        headers.set("Authorization", `${token}`);
-      }
+      headers.set("Authorization", `${token || localToken.token}`);
+
       return headers;
     },
   }),

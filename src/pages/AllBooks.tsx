@@ -71,14 +71,27 @@ export default function AllBooks() {
   const uniquePublicationDate = [...new Set(publicationDateData)];
 
   let filteredBooks = data?.data?.filter((book: any) => {
-    if (genre === "all" && publicationDate === "all") {
+    if (!genre || !publicationDate) {
       return book;
-    } else if (genre === "all" && publicationDate !== "all") {
+    } else if (genre === "all" && publicationDate === "all") {
+      return book;
+    } else if (
+      genre === "all" &&
+      publicationDate !== "all" &&
+      publicationDate !== ""
+    ) {
       return book.publicationDate === publicationDate;
-    } else if (genre !== "all" && publicationDate === "all") {
+    } else if (genre !== "all" && publicationDate === "all" && genre !== "") {
       return book.genre === genre;
-    } else {
+    } else if (
+      genre !== "all" &&
+      publicationDate !== "all" &&
+      genre !== "" &&
+      publicationDate !== ""
+    ) {
       return book.genre === genre && book.publicationDate === publicationDate;
+    } else {
+      return book;
     }
   });
 
@@ -90,6 +103,8 @@ export default function AllBooks() {
         book.genre.toLowerCase().includes(searchQuery.toLowerCase())
     );
   }
+
+  console.log(data?.data, filteredBooks);
 
   return (
     <div className="container mx-auto ">

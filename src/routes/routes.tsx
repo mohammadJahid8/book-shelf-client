@@ -5,9 +5,11 @@ import Home from "@/pages/Home";
 import Signup from "@/pages/Signup";
 import Signin from "@/pages/Signin";
 import AllBooks from "@/pages/AllBooks";
+
 import BookDetails from "@/pages/BookDetails";
 import EditBook from "@/pages/EditBook";
 import AddBook from "@/pages/AddBook";
+import Wishlist from "@/pages/Wishlist";
 
 const routes = createBrowserRouter([
   {
@@ -21,6 +23,10 @@ const routes = createBrowserRouter([
       {
         path: "/allbooks",
         element: <AllBooks />,
+      },
+      {
+        path: "/wishlist",
+        element: <Wishlist />,
       },
       {
         path: "/book-details/:id",

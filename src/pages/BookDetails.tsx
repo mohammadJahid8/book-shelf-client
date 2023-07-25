@@ -1,11 +1,13 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import {
+  useAddReviewMutation,
+  useAddToWishlistMutation,
   useDeleteBookMutation,
   useSingleBookQuery,
 } from "@/redux/features/books/bookApi";
 import { useAppSelector } from "@/redux/hook";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import swal from "sweetalert";
 
@@ -18,8 +20,10 @@ const BookDetails = () => {
     pollingInterval: 20000,
   });
   const [deleteBook] = useDeleteBookMutation();
+  const [addReview] = useAddReviewMutation();
+  const [addToWishlist] = useAddToWishlistMutation();
 
-  console.log(data);
+  // console.log(data);
 
   const { user } = useAppSelector((state) => state.user);
 
@@ -54,6 +58,46 @@ const BookDetails = () => {
     });
   };
 
+  const handleAddReview = async (event: any) => {
+    event.preventDefault();
+
+    const reviewData = event.target.review.value;
+
+    const options = {
+      id: id,
+      review: {
+        review: reviewData,
+      },
+    };
+    const response = await addReview(options);
+
+    // @ts-ignore
+    if (response?.data?.success === true) {
+      // clear review input
+      event.target.review.value = "";
+
+      refetch();
+      swal("Review added successfully!", {
+        icon: "success",
+      });
+    }
+  };
+
+  const handleAddToWishlist = async () => {
+    const response = await addToWishlist({
+      book: id,
+      userEmail,
+    });
+
+    // @ts-ignore
+    if (response?.data?.success === true) {
+      refetch();
+      swal("Book added to wishlist!", {
+        icon: "success",
+      });
+    }
+  };
+
   return (
     <div className="px-8 mt-28">
       <h4 className="text-start font-extrabold tracking-tight text-3xl mb-4 ">
@@ -73,6 +117,12 @@ const BookDetails = () => {
               className="text-white  bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-sm text-xs px-3 py-1.5 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
             >
               DELETE BOOK
+            </button>
+            <button
+              onClick={handleAddToWishlist}
+              className="text-white  bg-pink-700 hover:bg-pink-800 focus:ring-4 focus:outline-none focus:ring-pink-300 font-medium rounded-sm text-xs px-3 py-1.5 dark:bg-pink-600 dark:hover:bg-pink-700 dark:focus:ring-red-800"
+            >
+              ADD TO WISHLIST
             </button>
           </>
         )}
@@ -107,10 +157,35 @@ const BookDetails = () => {
           </div>
         </div>
 
+        <div>
+          <dt className="mb-1 text-gray-500 md:text-lg dark:text-gray-400">
+            Add review
+          </dt>
+          <form onSubmit={handleAddReview}>
+            <dd className="text-lg font-semibold flex">
+              <input
+                type="text"
+                name="review"
+                id="review"
+                className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+                placeholder=""
+                required
+              />
+              <button
+                className="cursor-pointer bg-blue-400 p-2 rounded text-white"
+                type="submit"
+              >
+                Add
+              </button>
+            </dd>
+          </form>
+        </div>
+
         <div className="flex flex-col pt-3">
           <dt className="mb-1 text-gray-500 md:text-lg dark:text-gray-400">
             Reviews
           </dt>
+
           <dd className="text-lg font-semibold">
             {data?.data?.reviews?.map((review: any) => (
               <div className="flex items-center space-x-4 mb-2">

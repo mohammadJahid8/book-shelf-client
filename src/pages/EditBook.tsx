@@ -1,9 +1,53 @@
-import { useEffect } from "react";
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+import {
+  useEditBookMutation,
+  useSingleBookQuery,
+} from "@/redux/features/books/bookApi";
+import { FormEvent, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 const EditBook = () => {
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+
+  const { data, refetch } = useSingleBookQuery(id, {
+    refetchOnMountOrArgChange: true,
+    pollingInterval: 20000,
+  });
+
+  const [editBook] = useEditBookMutation();
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  const handleEditBook = async (event: FormEvent<HTMLFormElement>) => {
+    try {
+      window.scrollTo(0, 0);
+      event.preventDefault();
+      const formData = new FormData(event.currentTarget);
+      const data = Object.fromEntries(formData);
+
+      console.log(data);
+
+      const response = await editBook({
+        id,
+        data,
+      });
+
+      //@ts-ignore
+      if (response?.data?.success === true) {
+        refetch();
+        //@ts-ignore
+        swal("Book edited successfully!", {
+          icon: "success",
+        });
+        navigate("/allbooks");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="px-8 mt-28">
@@ -11,7 +55,7 @@ const EditBook = () => {
         Edit Book
       </h4>
 
-      <form>
+      <form onSubmit={handleEditBook}>
         <div className="mb-6">
           <label
             htmlFor="title"
@@ -22,8 +66,10 @@ const EditBook = () => {
           <input
             type="text"
             id="title"
+            name="title"
+            defaultValue={data?.data?.title}
             className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
-            placeholder="name@flowbite.com"
+            placeholder=""
             required
           />
         </div>
@@ -35,7 +81,9 @@ const EditBook = () => {
             Author
           </label>
           <input
+            defaultValue={data?.data?.author}
             type="text"
+            name="author"
             id="Author"
             className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
             required
@@ -49,8 +97,10 @@ const EditBook = () => {
             Genre
           </label>
           <input
+            defaultValue={data?.data?.genre}
             type="text"
             id="genre"
+            name="genre"
             className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
             required
           />
@@ -63,8 +113,10 @@ const EditBook = () => {
             Publication date
           </label>
           <input
+            defaultValue={data?.data?.publicationDate}
             type="text"
             id="publication date"
+            name="publicationDate"
             className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
             required
           />
