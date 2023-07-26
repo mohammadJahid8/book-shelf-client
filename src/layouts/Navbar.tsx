@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   Navbar,
   Typography,
@@ -53,26 +53,30 @@ export default function NavbarHead() {
           ALL BOOKS
         </Typography>
       </Link>
-      <Link to="/wishlist">
-        <Typography
-          as="li"
-          variant="small"
-          color="blue-gray"
-          className="p-1 font-normal"
-        >
-          WISHLIST
-        </Typography>
-      </Link>
-      <Link to="/reading">
-        <Typography
-          as="li"
-          variant="small"
-          color="blue-gray"
-          className="p-1 font-normal"
-        >
-          CURRENTLY READING
-        </Typography>
-      </Link>
+      {userEmail && (
+        <>
+          <Link to="/wishlist">
+            <Typography
+              as="li"
+              variant="small"
+              color="blue-gray"
+              className="p-1 font-normal"
+            >
+              WISHLIST
+            </Typography>
+          </Link>
+          <Link to="/reading">
+            <Typography
+              as="li"
+              variant="small"
+              color="blue-gray"
+              className="p-1 font-normal"
+            >
+              CURRENTLY READING
+            </Typography>
+          </Link>
+        </>
+      )}
     </ul>
   );
 

@@ -1,10 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 
 import { setToken } from "@/redux/features/user/authSlice";
-import {
-  useGetMyProfileQuery,
-  useUserSigninMutation,
-} from "@/redux/features/user/userApi";
+import { useUserSigninMutation } from "@/redux/features/user/userApi";
 import { useAppDispatch } from "@/redux/hook";
 
 import { Card, Input, Button, Typography } from "@material-tailwind/react";

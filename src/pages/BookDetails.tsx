@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import {
   useAddReviewMutation,
@@ -7,7 +8,7 @@ import {
 } from "@/redux/features/books/bookApi";
 import { useAppSelector } from "@/redux/hook";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import swal from "sweetalert";
 
@@ -121,12 +122,14 @@ const BookDetails = () => {
             </button>
           </>
         )}
-        <button
-          onClick={handleAddToWishlist}
-          className="text-white  bg-pink-700 hover:bg-pink-800 focus:ring-4 focus:outline-none focus:ring-pink-300 font-medium rounded-sm text-xs px-3 py-1.5 dark:bg-pink-600 dark:hover:bg-pink-700 dark:focus:ring-red-800"
-        >
-          ADD TO WISHLIST
-        </button>
+        {userEmail && (
+          <button
+            onClick={handleAddToWishlist}
+            className="text-white  bg-pink-700 hover:bg-pink-800 focus:ring-4 focus:outline-none focus:ring-pink-300 font-medium rounded-sm text-xs px-3 py-1.5 dark:bg-pink-600 dark:hover:bg-pink-700 dark:focus:ring-red-800"
+          >
+            ADD TO WISHLIST
+          </button>
+        )}
       </div>
       <dl className=" text-gray-900 divide-y divide-gray-200 dark:text-white dark:divide-gray-700">
         <div className="flex flex-col md:flex-row md:justify-between">
