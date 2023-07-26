@@ -21,8 +21,10 @@ export default function Signup() {
     const data = Object.fromEntries(formData);
     const response = await userSignup(data);
 
+    console.log(response);
+
     //@ts-ignore
-    if (response?.success === true) {
+    if (response?.data?.success === true) {
       navigate("/signin");
     }
   };

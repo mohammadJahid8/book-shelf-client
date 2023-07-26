@@ -95,6 +95,7 @@ const BookDetails = () => {
       swal("Book added to wishlist!", {
         icon: "success",
       });
+      navigate("/wishlist");
     }
   };
 
@@ -118,14 +119,14 @@ const BookDetails = () => {
             >
               DELETE BOOK
             </button>
-            <button
-              onClick={handleAddToWishlist}
-              className="text-white  bg-pink-700 hover:bg-pink-800 focus:ring-4 focus:outline-none focus:ring-pink-300 font-medium rounded-sm text-xs px-3 py-1.5 dark:bg-pink-600 dark:hover:bg-pink-700 dark:focus:ring-red-800"
-            >
-              ADD TO WISHLIST
-            </button>
           </>
         )}
+        <button
+          onClick={handleAddToWishlist}
+          className="text-white  bg-pink-700 hover:bg-pink-800 focus:ring-4 focus:outline-none focus:ring-pink-300 font-medium rounded-sm text-xs px-3 py-1.5 dark:bg-pink-600 dark:hover:bg-pink-700 dark:focus:ring-red-800"
+        >
+          ADD TO WISHLIST
+        </button>
       </div>
       <dl className=" text-gray-900 divide-y divide-gray-200 dark:text-white dark:divide-gray-700">
         <div className="flex flex-col md:flex-row md:justify-between">

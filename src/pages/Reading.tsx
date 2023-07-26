@@ -5,44 +5,39 @@ import {
   useGetWishlistQuery,
   useUpdateWishlistMutation,
 } from "@/redux/features/books/bookApi";
-import { useNavigate } from "react-router-dom";
+import swal from "sweetalert";
 
-export default function Wishlist() {
-  const navigate = useNavigate();
+export default function Reading() {
+  const { data, isLoading, refetch } = useGetWishlistQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+    pollingInterval: 30000,
+  });
 
-  const { data, isLoading } = useGetWishlistQuery(undefined);
+  const [updateWishlist] = useUpdateWishlistMutation();
 
-  const [updateWishlist, { error }] = useUpdateWishlistMutation();
-
-  console.log("error", error);
-
-  const handleReadNow = async (id: string) => {
+  const handleFinish = async (id: string) => {
     const data = {
-      isReading: true,
-      readingStatus: "reading",
+      readingStatus: "finished",
     };
 
-    console.log(data);
-
     const res = await updateWishlist({ id, data });
-
-    console.log(res);
+    refetch();
     //@ts-ignore
     if (res?.data?.success === true) {
-      navigate("/reading");
+      swal("You have finished reading the book!", {
+        icon: "success",
+      });
     }
   };
 
   const readingBooks = data?.data?.filter(
-    (book: { isReading: boolean }) => !book.isReading
+    (book: { isReading: boolean }) => book.isReading
   );
-
-  console.log(readingBooks);
 
   return (
     <div className="container mx-auto ">
       <h4 className="text-center font-extrabold tracking-tight text-3xl mb-4">
-        Wishlist
+        Currently Reading
       </h4>
 
       {isLoading ? (
@@ -89,12 +84,21 @@ export default function Wishlist() {
                   <td className="px-6 py-4">{book.book.genre}</td>
                   <td className="px-6 py-4">{book.book.publicationDate}</td>
                   <td className="px-6 py-4">
-                    <button
-                      className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
-                      onClick={() => handleReadNow(book?._id)}
-                    >
-                      <p>READ NOW</p>
-                    </button>
+                    {book.readingStatus === "reading" ? (
+                      <button
+                        className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
+                        onClick={() => handleFinish(book?._id)}
+                      >
+                        <p>FINISH READING</p>
+                      </button>
+                    ) : (
+                      <button
+                        className="font-medium text-green-600 hover:underline dark:text-green-500"
+                        disabled
+                      >
+                        <p>FINISHED</p>
+                      </button>
+                    )}
                   </td>
                 </tr>
               ))}

@@ -10,6 +10,7 @@ import BookDetails from "@/pages/BookDetails";
 import EditBook from "@/pages/EditBook";
 import AddBook from "@/pages/AddBook";
 import Wishlist from "@/pages/Wishlist";
+import Reading from "@/pages/Reading";
 
 const routes = createBrowserRouter([
   {
@@ -27,6 +28,10 @@ const routes = createBrowserRouter([
       {
         path: "/wishlist",
         element: <Wishlist />,
+      },
+      {
+        path: "/reading",
+        element: <Reading />,
       },
       {
         path: "/book-details/:id",

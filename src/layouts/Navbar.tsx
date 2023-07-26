@@ -63,6 +63,16 @@ export default function NavbarHead() {
           WISHLIST
         </Typography>
       </Link>
+      <Link to="/reading">
+        <Typography
+          as="li"
+          variant="small"
+          color="blue-gray"
+          className="p-1 font-normal"
+        >
+          CURRENTLY READING
+        </Typography>
+      </Link>
     </ul>
   );
 
